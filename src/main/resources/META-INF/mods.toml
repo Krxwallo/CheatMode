@@ -1,0 +1,29 @@
+modLoader="javafml"
+loaderVersion="[32,)"
+issueTrackerURL="https://www.curseforge.com/minecraft/mc-mods/cheat_mode/issues"
+
+[[mods]]
+    modId="cheat_mode"
+    version="${file.jarVersion}"
+    displayName="Cheat Mode Mod"
+    displayURL="https://www.curseforge.com/minecraft/mc-mods/cheat_mode"
+    #logoFile="cheat_mode.png"
+    authors="justAm0dd3r"
+    description='''
+A mod that makes it so you can access the creative inventory from the survival gamemode.
+Allows players to test things out in survival.
+'''
+
+[[dependencies.cheat_mode]]
+    modId="forge"
+    mandatory=true
+    versionRange="[32,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.cheat_mode]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.1]"
+    ordering="NONE"
+    side="BOTH"
