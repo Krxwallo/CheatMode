@@ -1,0 +1,4 @@
+Build 2020-07-23 17:02 cheat_mode-1.16.1-1.1.0
+==============================================
+
+- Initial Build -> made it so that the player can open the creative inventory from the survival mode.
