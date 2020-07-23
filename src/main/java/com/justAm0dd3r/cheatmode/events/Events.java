@@ -1,10 +1,11 @@
 package com.justAm0dd3r.cheatmode.events;
 
+import com.justAm0dd3r.cheatmode.CheatMode;
+import com.justAm0dd3r.cheatmode.config.Config;
 import com.justAm0dd3r.cheatmode.gui.button.ItemButton;
 import com.justAm0dd3r.cheatmode.gui.screen.CheatModeScreen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.inventory.CreativeScreen;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.ITextProperties;
@@ -25,6 +26,7 @@ public class Events {
     public GameType gameTypeBefore;
     public boolean screenOpen;
     private ItemButton button;
+    private boolean firstTime = true;
 
 
     @SubscribeEvent
@@ -32,26 +34,48 @@ public class Events {
         if (event.getGui() instanceof InventoryScreen) {
             assert Minecraft.getInstance().playerController != null;
             if (Minecraft.getInstance().playerController.getCurrentGameType() != GameType.CREATIVE) {
-                LOGGER.debug("Inventory Screen");
 
-                int guiCenterX = ((InventoryScreen) event.getGui()).getGuiLeft();
-                int guiCenterY = ((InventoryScreen) event.getGui()).getGuiTop();
+                if (Config.COMMON.instantCreativeInventory.get()) {
+                    // Directly open Creative Inventory
 
-                if (Minecraft.getInstance().player == null) {
-                    LOGGER.error("Player is null");
-                    return;
+                    if (firstTime) {
+                        firstTime = false;
+                        if (Minecraft.getInstance().player == null) {
+                            LOGGER.error("Player is null");
+                            return;
+                        }
+
+                        assert Minecraft.getInstance().playerController != null;
+                        this.gameTypeBefore = Minecraft.getInstance().playerController.getCurrentGameType();
+                        this.screenOpen = true;
+                        Objects.requireNonNull(getServerPlayer()).setGameType(GameType.CREATIVE);
+
+                        Minecraft.getInstance().displayGuiScreen(
+                                new CheatModeScreen(Minecraft.getInstance().player, Objects.requireNonNull(getServerPlayer()), false));
+                    }
                 }
+                else {
+                    // Add a button
 
-                event.addWidget(this.button = new ItemButton(guiCenterX + 77, guiCenterY + 30,
-                        button -> Minecraft.getInstance().displayGuiScreen(new CheatModeScreen(Minecraft.getInstance().player,
-                                Objects.requireNonNull(getServerPlayer())))));
+                    int guiCenterX = ((InventoryScreen) event.getGui()).getGuiLeft();
+                    int guiCenterY = ((InventoryScreen) event.getGui()).getGuiTop();
+
+                    if (Minecraft.getInstance().player == null) {
+                        LOGGER.error("Player is null");
+                        return;
+                    }
+
+                    event.addWidget(this.button = new ItemButton(guiCenterX + 77, guiCenterY + 30,
+                            button -> Minecraft.getInstance().displayGuiScreen(new CheatModeScreen(Minecraft.getInstance().player,
+                                    Objects.requireNonNull(getServerPlayer()), true))));
+                }
             }
         }
     }
 
     @SubscribeEvent
     public void onScreenDrawPost(GuiScreenEvent.DrawScreenEvent.Post event) {
-        if (event.getGui() instanceof InventoryScreen) {
+        if (event.getGui() instanceof InventoryScreen && button != null) {
             if(button.func_231047_b_(event.getMouseX(), event.getMouseY())) {
                 screenRenderToolTip(((InventoryScreen) event.getGui()), new TranslationTextComponent("gui.cheat_mode.open_creative_inventory"),
                         event.getMouseX(), event.getMouseY());
@@ -67,6 +91,7 @@ public class Events {
     public void onOpenGui(GuiOpenEvent event) {
         if (screenOpen && event.getGui() == null) {
             screenOpen = false;
+            firstTime = true;
             ServerPlayerEntity serverPlayerEntity = getServerPlayer();
             assert serverPlayerEntity != null;
             serverPlayerEntity.setGameType(gameTypeBefore);

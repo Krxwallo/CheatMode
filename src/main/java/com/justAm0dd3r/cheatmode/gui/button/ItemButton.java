@@ -1,7 +1,7 @@
 package com.justAm0dd3r.cheatmode.gui.button;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
@@ -34,7 +34,7 @@ public class ItemButton extends Button {
         RenderHelper.enableStandardItemLighting();
         ItemRenderer itemRender = Minecraft.getInstance().getItemRenderer();
 
-        GlStateManager.translatef(0.0F, 0.0F, 32.0F);
+        RenderSystem.translatef(0.0F, 0.0F, 32.0F);
         this.field_230695_q_ = 200.0F;
         itemRender.zLevel = 200.0F;
         itemRender.renderItemAndEffectIntoGUI(new ItemStack(Blocks.GRASS_BLOCK), x, y);

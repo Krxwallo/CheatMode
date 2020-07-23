@@ -8,12 +8,13 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.world.GameType;
 
 public class CheatModeScreen extends CreativeScreen {
-
-    public CheatModeScreen(PlayerEntity player, ServerPlayerEntity serverPlayerEntity) {
+    public CheatModeScreen(PlayerEntity player, ServerPlayerEntity serverPlayerEntity, boolean setGameType) {
         super(player);
-        assert Minecraft.getInstance().playerController != null;
-        CheatMode.getEvents().gameTypeBefore = Minecraft.getInstance().playerController.getCurrentGameType();
-        CheatMode.getEvents().screenOpen = true;
-        serverPlayerEntity.setGameType(GameType.CREATIVE);
+        if (setGameType) {
+            assert Minecraft.getInstance().playerController != null;
+            CheatMode.getEvents().gameTypeBefore = Minecraft.getInstance().playerController.getCurrentGameType();
+            CheatMode.getEvents().screenOpen = true;
+            serverPlayerEntity.setGameType(GameType.CREATIVE);
+        }
     }
 }
