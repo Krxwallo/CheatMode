@@ -13,7 +13,7 @@ public class Config {
         public final ForgeConfigSpec.BooleanValue instantCreativeInventory;
 
         public Common(ForgeConfigSpec.Builder builder) {
-            builder.comment("Cheat Mode Mod Configurations")
+            builder.comment("Cheat Mode Mod Configurations | NO RESTART REQUIRED")
                    .push(Reference.MOD_ID);
 
             instantCreativeInventory = builder
