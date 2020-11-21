@@ -1,18 +1,25 @@
 package com.justAm0dd3r.cheatmode.events;
 
-import com.justAm0dd3r.cheatmode.CheatMode;
 import com.justAm0dd3r.cheatmode.config.Config;
 import com.justAm0dd3r.cheatmode.gui.button.ItemButton;
 import com.justAm0dd3r.cheatmode.gui.screen.CheatModeScreen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.GameType;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -109,5 +116,22 @@ public class Events {
             }
         }
         return null;
+    }
+
+    @SubscribeEvent
+    public void onBlockPlace(BlockEvent.EntityPlaceEvent event) {
+        Entity entity = event.getEntity();
+        if (entity instanceof PlayerEntity) {
+            PlayerEntity pEntity = ((PlayerEntity) entity);
+            if (!pEntity.abilities.isCreativeMode) {
+                LOGGER.debug("onBlockPlace() called with player entity.");
+                ItemStack stack = pEntity.getHeldItemMainhand();
+                stack.grow(1);
+
+                pEntity.setHeldItem(Hand.MAIN_HAND, stack);
+                //((PlayerEntity) event.getEntity()).addItemStackToInventory(new ItemStack(((PlayerEntity) event.getEntity()).getHeldItemMainhand().getItem().getItem(), 1));
+                //pEntity.inventory.addItemStackToInventory(new ItemStack(pEntity.getHeldItemMainhand().getItem(),pEntity.getHeldItemMainhand().getCount() + 1));
+            }
+        }
     }
 }
