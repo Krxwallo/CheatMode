@@ -1,5 +1,6 @@
 modLoader="javafml"
 loaderVersion="[32,)"
+license="General Public License v3"
 issueTrackerURL="https://www.curseforge.com/minecraft/mc-mods/cheat_mode/issues"
 
 [[mods]]

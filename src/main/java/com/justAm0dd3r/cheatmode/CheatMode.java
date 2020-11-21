@@ -26,7 +26,6 @@ public class CheatMode
         MinecraftForge.EVENT_BUS.register(CheatMode.events = new Events());
     }
 
-    @SuppressWarnings("unused")
     public static Events getEvents() {
         return events;
     }
