@@ -1,6 +1,7 @@
 package com.justAm0dd3r.cheatmode.gui.button;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
@@ -9,6 +10,7 @@ import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TranslationTextComponent;
+import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nonnull;
 
@@ -25,22 +27,21 @@ public class ItemButton extends Button {
     }
 
     @Override
-    public void func_230431_b_(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void renderButton(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         renderButton();
-        super.func_230431_b_(matrixStack, mouseX, mouseY, partialTicks);
+        super.renderButton(matrixStack, mouseX, mouseY, partialTicks);
     }
 
     public void renderButton() {
         RenderHelper.enableStandardItemLighting();
         ItemRenderer itemRender = Minecraft.getInstance().getItemRenderer();
 
-        // What should I use instead?!!
-        //noinspection deprecation
-        RenderSystem.translatef(0.0F, 0.0F, 32.0F);
-        this.field_230695_q_ = 200.0F;
+        GL11.glTranslatef(0.0F, 0.0F, 32.0F);
+
+        this.alpha = 200.0F;
         itemRender.zLevel = 200.0F;
         itemRender.renderItemAndEffectIntoGUI(new ItemStack(Blocks.GRASS_BLOCK), x, y);
-        this.field_230695_q_ = 0.0F;
+        this.alpha = 0.0F;
         itemRender.zLevel = 0.0F;
 
         RenderHelper.disableStandardItemLighting();
