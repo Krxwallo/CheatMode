@@ -9,17 +9,13 @@ import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.GameType;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -83,7 +79,7 @@ public class Events {
     @SubscribeEvent
     public void onScreenDrawPost(GuiScreenEvent.DrawScreenEvent.Post event) {
         if (event.getGui() instanceof InventoryScreen && button != null) {
-            if(button.func_231047_b_(event.getMouseX(), event.getMouseY())) {
+            if(button.isMouseOver(event.getMouseX(), event.getMouseY())) {
                 screenRenderToolTip(((InventoryScreen) event.getGui()), new TranslationTextComponent("gui.cheat_mode.open_creative_inventory"),
                         event.getMouseX(), event.getMouseY());
             }
@@ -91,7 +87,7 @@ public class Events {
     }
 
     private void screenRenderToolTip(InventoryScreen screen, TranslationTextComponent name, int mouseX, int mouseY) {
-        screen.func_238652_a_(new MatrixStack(), ITextProperties.func_240652_a_(name.getString()), mouseX, mouseY);
+        screen.renderTooltip(new MatrixStack(), name, mouseX, mouseY);
     }
 
     @SubscribeEvent
