@@ -2,20 +2,27 @@ package com.justAm0dd3r.cheatmode.events;
 
 import com.justAm0dd3r.cheatmode.config.Config;
 import com.justAm0dd3r.cheatmode.gui.button.ItemButton;
+import com.justAm0dd3r.cheatmode.gui.button.ToggleButton;
 import com.justAm0dd3r.cheatmode.gui.screen.CheatModeScreen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.inventory.CreativeScreen;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.GameType;
+import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,15 +32,15 @@ import java.util.List;
 import java.util.Objects;
 
 public class Events {
+    // Everything here is bad practise, but as it is only intended for single player, I DONT CARE
     private static final Logger LOGGER = LogManager.getLogger();
     public GameType gameTypeBefore;
     public boolean screenOpen;
     private ItemButton button;
     private boolean firstTime = true;
 
-
     @SubscribeEvent
-    public void onScreenInit(GuiScreenEvent.InitGuiEvent event) {
+    public void onScreenInit(GuiScreenEvent.InitGuiEvent.Post event) {
         if (event.getGui() instanceof InventoryScreen) {
             assert Minecraft.getInstance().playerController != null;
             if (Minecraft.getInstance().playerController.getCurrentGameType() != GameType.CREATIVE) {
@@ -74,6 +81,49 @@ public class Events {
                 }
             }
         }
+        else if (event.getGui() instanceof CreativeScreen){
+            // Creative Inventory
+            // Add other buttons such as enable fly
+            LOGGER.info("Creative Inventory?!!");
+            CreativeScreen gui = ((CreativeScreen) event.getGui());
+
+            int j = gui.height / 4 + 48;
+
+            event.addWidget(new ToggleButton(gui.width / 2 - 200, gui.height / 6 + 48 - 6, 98, 20,
+                    "Double Speed", Config.COMMON.doubleSpeed.get(),
+                    button -> {
+                        Config.COMMON.doubleSpeed.set(((ToggleButton) button).getState());
+                        Config.COMMON.doubleSpeed.save();
+                        updateSpeed(getServerPlayer());
+                    }));
+        }
+    }
+
+    @SubscribeEvent
+    public void onJoinWorld(EntityJoinWorldEvent evt) {
+        if (evt.getEntity() instanceof PlayerEntity) updateSpeed(((PlayerEntity) evt.getEntity()));
+    }
+
+    private void updateSpeed(PlayerEntity player) {
+        LOGGER.info("updateSpeed() called (" + Config.COMMON.doubleSpeed.get() + ")");
+        if (Config.COMMON.doubleSpeed.get()) {
+            Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(0.2F);
+            try {Objects.requireNonNull(player.getAttribute(Attributes.FLYING_SPEED)).setBaseValue(0.2F); } catch (Exception ignored){}
+        }
+        else {
+            Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(0.1F);
+            try {Objects.requireNonNull(player.getAttribute(Attributes.FLYING_SPEED)).setBaseValue(0.1F); } catch (Exception ignored){}
+        }
+    }
+
+    @SubscribeEvent
+    public void fovUpdate(FOVUpdateEvent evt) {
+        float newFov = evt.getFov();
+        if (Config.COMMON.doubleSpeed.get()) {
+            newFov = (newFov/3)*2;
+            evt.setNewfov(newFov);
+        }
+        LOGGER.debug("New FOV: " + newFov + " (" + Config.COMMON.doubleSpeed.get() + ")");
     }
 
     @SubscribeEvent
