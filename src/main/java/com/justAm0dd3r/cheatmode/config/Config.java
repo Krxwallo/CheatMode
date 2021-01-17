@@ -11,6 +11,7 @@ public class Config {
     public static class Common {
 
         public final ForgeConfigSpec.BooleanValue instantCreativeInventory;
+        public final ForgeConfigSpec.BooleanValue doubleSpeed;
 
         public Common(ForgeConfigSpec.Builder builder) {
 
@@ -22,6 +23,11 @@ public class Config {
                             "the survival inventory with a button to open the creative inventory (false)? (default: true)")
                     .worldRestart()
                     .define("instant_creative_inventory", true);
+
+            doubleSpeed = builder
+                    .comment("Walk and fly twice as fast? (default: false)")
+                    .worldRestart()
+                    .define("double_speed", false);
 
             builder.pop();
         }
