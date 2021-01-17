@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'idea'
 apply plugin: 'maven-publish'
 
-version = '1.2.2'
+version = '1.2.3'
 group = 'com.justAm0dd3r.cheat_mode'
 archivesBaseName = 'cheat_mode-1.16.X'
 
