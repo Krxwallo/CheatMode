@@ -84,7 +84,6 @@ public class Events {
         else if (event.getGui() instanceof CreativeScreen){
             // Creative Inventory
             // Add other buttons such as enable fly
-            LOGGER.info("Creative Inventory?!!");
             CreativeScreen gui = ((CreativeScreen) event.getGui());
 
             int j = gui.height / 4 + 48;
@@ -105,7 +104,6 @@ public class Events {
     }
 
     private void updateSpeed(PlayerEntity player) {
-        LOGGER.info("updateSpeed() called (" + Config.COMMON.doubleSpeed.get() + ")");
         if (Config.COMMON.doubleSpeed.get()) {
             Objects.requireNonNull(player.getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(0.2F);
             try {Objects.requireNonNull(player.getAttribute(Attributes.FLYING_SPEED)).setBaseValue(0.2F); } catch (Exception ignored){}
@@ -123,7 +121,6 @@ public class Events {
             newFov = (newFov/3)*2;
             evt.setNewfov(newFov);
         }
-        LOGGER.debug("New FOV: " + newFov + " (" + Config.COMMON.doubleSpeed.get() + ")");
     }
 
     @SubscribeEvent
