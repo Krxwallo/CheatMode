@@ -14,3 +14,24 @@ Cheat Mode is a small mod that allows players to access the creative inventory f
 
 * <strong>The "open directly" mode:</strong> This is set by default. When it is enabled, the creative inventory will automatically open when the player "tries" to open the survival inventory (presses E).
 * <strong>The "open on button press" mode</strong>: This can be enabled in the config. When it is enabled, a button will appear in the survival inventory which will open the creative inventory.
+
+### Developers
+If you want to add this mod to your development environment, add this to your ```build.gradle``` file:
+
+```
+repositories {
+     maven {
+          name = "Cursemaven"
+          url = "https://www.cursemaven.com"
+     }
+
+     [....OTHER REPOSITORIES SUCH AS JEI...]
+}
+
+dependencies {
+     [..... OTHER DEPENDENCIES ...]
+
+     compile "curse.maven:cm-398168:FILE_ID"
+}
+```
+Replace FILE_ID with the corresponding file id targeted towards your minecraft version. For a list see the official [curseforge page](https://www.curseforge.com/minecraft/mc-mods/cheat-mode).
