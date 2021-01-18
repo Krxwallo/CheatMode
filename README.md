@@ -18,18 +18,18 @@ Cheat Mode is a small mod that allows players to access the creative inventory f
 ### Developers
 If you want to add this mod to your development environment, add this to your ```build.gradle``` file:
 
-```
+```gradle
 repositories {
      maven {
           name = "Cursemaven"
           url = "https://www.cursemaven.com"
      }
 
-     [....OTHER REPOSITORIES SUCH AS JEI...]
+     // ....OTHER REPOSITORIES SUCH AS JEI...
 }
 
 dependencies {
-     [..... OTHER DEPENDENCIES ...]
+     // ..... OTHER DEPENDENCIES ...
 
      compile "curse.maven:cm-398168:FILE_ID"
 }
