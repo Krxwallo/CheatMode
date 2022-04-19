@@ -1,20 +1,18 @@
 package com.justAm0dd3r.cheatmode.gui.screen;
 
 import com.justAm0dd3r.cheatmode.CheatMode;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.inventory.CreativeScreen;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.world.GameType;
+import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.GameType;
 
-public class CheatModeScreen extends CreativeScreen {
-    public CheatModeScreen(PlayerEntity player, ServerPlayerEntity serverPlayerEntity, boolean setGameType) {
+public class CheatModeScreen extends CreativeModeInventoryScreen {
+    public CheatModeScreen(Player player, ServerPlayer serverPlayer, boolean setGameType) {
         super(player);
         if (setGameType) {
-            assert Minecraft.getInstance().playerController != null;
-            CheatMode.getEvents().gameTypeBefore = Minecraft.getInstance().playerController.getCurrentGameType();
+            CheatMode.getEvents().gameTypeBefore = serverPlayer.gameMode.getGameModeForPlayer();
             CheatMode.getEvents().screenOpen = true;
-            serverPlayerEntity.setGameType(GameType.CREATIVE);
+            serverPlayer.setGameMode(GameType.CREATIVE);
         }
     }
 }

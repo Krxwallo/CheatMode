@@ -1,15 +1,16 @@
 package com.justAm0dd3r.cheatmode.gui.button;
 
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.StringTextComponent;
+
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.TextComponent;
 
 import javax.annotation.CheckReturnValue;
 
 public class ToggleButton extends Button {
     private boolean state;
     private final String mainTitle;
-    public ToggleButton(int x, int y, int width, int height, String mainTitle, boolean startState, IPressable pressedAction) {
-        super(x, y, width, height, new StringTextComponent(getText(mainTitle, startState)), pressedAction);
+    public ToggleButton(int x, int y, int width, int height, String mainTitle, boolean startState, OnPress pressedAction) {
+        super(x, y, width, height, new TextComponent(getText(mainTitle, startState)), pressedAction);
         this.mainTitle = mainTitle;
         this.state = startState;
     }
@@ -30,7 +31,7 @@ public class ToggleButton extends Button {
     @Override
     public void onPress() {
         state = !state;
-        this.setMessage(new StringTextComponent(getText(mainTitle, state)));
+        this.setMessage(new TextComponent(getText(mainTitle, state)));
         super.onPress();
     }
 }
