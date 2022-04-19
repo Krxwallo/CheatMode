@@ -1,16 +1,12 @@
 package com.justAm0dd3r.cheatmode.gui.button;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.block.Blocks;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TranslationTextComponent;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 
 import javax.annotation.Nonnull;
 
@@ -20,30 +16,25 @@ import javax.annotation.Nonnull;
 public class ItemButton extends Button {
     private final int x, y;
 
-    public ItemButton(int xIn, int yIn, IPressable pressable) {
-        super(xIn, yIn, 16, 16, new TranslationTextComponent(""), pressable);
+    public ItemButton(int xIn, int yIn, OnPress action) {
+        super(xIn, yIn, 16, 16, new TextComponent(""), action);
         this.x = xIn;
         this.y = yIn;
     }
 
     @Override
-    public void renderButton(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void renderButton(@Nonnull PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         renderButton();
         super.renderButton(matrixStack, mouseX, mouseY, partialTicks);
     }
 
     public void renderButton() {
-        RenderHelper.enableStandardItemLighting();
-        ItemRenderer itemRender = Minecraft.getInstance().getItemRenderer();
-
-        GL11.glTranslatef(0.0F, 0.0F, 32.0F);
+        ItemRenderer renderer = Minecraft.getInstance().getItemRenderer();
 
         this.alpha = 200.0F;
-        itemRender.zLevel = 200.0F;
-        itemRender.renderItemAndEffectIntoGUI(new ItemStack(Blocks.GRASS_BLOCK), x, y);
+        renderer.blitOffset = 200.0F;
+        renderer.renderAndDecorateItem(new ItemStack(Blocks.GRASS_BLOCK), x, y);
         this.alpha = 0.0F;
-        itemRender.zLevel = 0.0F;
-
-        RenderHelper.disableStandardItemLighting();
+        renderer.blitOffset = 0.0F;
     }
 }
