@@ -1,4 +1,4 @@
-![Curseforge Banner](https://lookonthebrightsi.de/mc-mods/cheat_mode/images/main_trimmed.png)
+![Curseforge Banner](https://mc.lookonthebrightsi.de/cheat_mode/images/main_trimmed.png)
 
 [![Curseforge](http://cf.way2muchnoise.eu/title/cheat-mode.svg?badge_style=for_the_badge)](https://www.curseforge.com/minecraft/mc-mods/cheat-mode)
 [![Downloads](http://cf.way2muchnoise.eu/cheat-mode.svg?badge_style=for_the_badge)](https://www.curseforge.com/minecraft/mc-mods/cheat-mode/download)
