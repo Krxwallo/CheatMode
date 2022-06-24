@@ -31,7 +31,7 @@ repositories {
 dependencies {
      // ..... OTHER DEPENDENCIES ...
 
-     compile "curse.maven:cm-398168:FILE_ID"
+     compileOnly fg.deobf("curse.maven:cm-398168:FILE_ID")
 }
 ```
 Replace FILE_ID with the corresponding file id targeted towards your minecraft version. For a list see the [official curseforge page](https://www.curseforge.com/minecraft/mc-mods/cheat-mode).
