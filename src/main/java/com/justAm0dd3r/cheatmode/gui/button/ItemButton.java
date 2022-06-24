@@ -8,8 +8,6 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 
-import javax.annotation.Nonnull;
-
 /**
  * Author: justAm0dd3r
  */
@@ -23,7 +21,7 @@ public class ItemButton extends Button {
     }
 
     @Override
-    public void renderButton(@Nonnull PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void renderButton(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         renderButton();
         super.renderButton(matrixStack, mouseX, mouseY, partialTicks);
     }
