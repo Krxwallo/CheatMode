@@ -10,7 +10,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.server.IntegratedServer;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.entity.player.Player;
@@ -148,14 +149,14 @@ public class Events {
     public void onScreenDrawPost(ScreenEvent.DrawScreenEvent.Post event) {
         if (event.getScreen() instanceof InventoryScreen && button != null) {
             if(button.isMouseOver(event.getMouseX(), event.getMouseY())) {
-                screenRenderToolTip(((InventoryScreen) event.getScreen()), new TranslatableComponent("gui.cheat_mode.open_creative_inventory"),
+                screenRenderToolTip(((InventoryScreen) event.getScreen()), new TranslatableContents("gui.cheat_mode.open_creative_inventory"),
                         event.getMouseX(), event.getMouseY());
             }
         }
     }
 
-    private void screenRenderToolTip(InventoryScreen screen, TranslatableComponent name, int mouseX, int mouseY) {
-        screen.renderTooltip(new PoseStack(), name, mouseX, mouseY);
+    private void screenRenderToolTip(InventoryScreen screen, TranslatableContents name, int mouseX, int mouseY) {
+        screen.renderTooltip(new PoseStack(), MutableComponent.create(name), mouseX, mouseY);
     }
 
     @SubscribeEvent

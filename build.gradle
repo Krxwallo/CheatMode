@@ -12,15 +12,15 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'idea'
 apply plugin: 'maven-publish'
 
-version = '1.2.5'
+version = '1.2.6'
 group = 'com.justAm0dd3r.cheat_mode'
-archivesBaseName = 'cheat_mode-1.18.X'
+archivesBaseName = 'cheat_mode-1.19.X'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'official', version: '1.18.2'
+    mappings channel: 'official', version: '1.19'
     runs {
         client {
             workingDirectory project.file('run')
@@ -91,7 +91,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.1.0'
+    minecraft 'net.minecraftforge:forge:1.19-41.0.45'
 }
 
 jar.finalizedBy('reobfJar')
