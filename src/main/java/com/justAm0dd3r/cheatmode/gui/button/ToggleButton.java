@@ -4,8 +4,6 @@ package com.justAm0dd3r.cheatmode.gui.button;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.TextComponent;
 
-import javax.annotation.CheckReturnValue;
-
 public class ToggleButton extends Button {
     private boolean state;
     private final String mainTitle;
@@ -19,7 +17,6 @@ public class ToggleButton extends Button {
         return mainTitle + (state ? ": ON" : ": OFF");
     }
 
-    @CheckReturnValue
     public boolean getState() {
         return state;
     }

@@ -1,7 +1,7 @@
 package com.justAm0dd3r.cheatmode.events;
 
 import com.justAm0dd3r.cheatmode.config.Config;
-import com.justAm0dd3r.cheatmode.gui.button.CommandButton;
+import com.justAm0dd3r.cheatmode.gui.button.DayButton;
 import com.justAm0dd3r.cheatmode.gui.button.ItemButton;
 import com.justAm0dd3r.cheatmode.gui.button.ToggleButton;
 import com.justAm0dd3r.cheatmode.gui.screen.CheatModeScreen;
@@ -15,8 +15,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameType;
-import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.client.event.ScreenOpenEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -42,11 +42,11 @@ public class Events {
     }
 
     @SubscribeEvent
-    public void onScreenInit(GuiScreenEvent.InitGuiEvent.Post event) {
+    public void onScreenInit(ScreenEvent.InitScreenEvent.Post event) {
         ServerPlayer player = getServerPlayer();
         if (player == null | minecraft.player == null) return;
 
-        if (event.getGui() instanceof InventoryScreen) {
+        if (event.getScreen() instanceof InventoryScreen) {
             assert Minecraft.getInstance().gameMode != null;
             if (player.gameMode.getGameModeForPlayer() != GameType.CREATIVE) {
 
@@ -66,15 +66,15 @@ public class Events {
                 else {
                     // Add a button
 
-                    int guiCenterX = ((InventoryScreen) event.getGui()).getGuiLeft();
-                    int guiCenterY = ((InventoryScreen) event.getGui()).getGuiTop();
+                    int guiCenterX = ((InventoryScreen) event.getScreen()).getGuiLeft();
+                    int guiCenterY = ((InventoryScreen) event.getScreen()).getGuiTop();
 
-                    event.addWidget(this.button = new ItemButton(guiCenterX + 77, guiCenterY + 30,
+                    event.addListener(this.button = new ItemButton(guiCenterX + 77, guiCenterY + 30,
                             button -> minecraft.pushGuiLayer(new CheatModeScreen(minecraft.player, player, true))));
                 }
             }
         }
-        else if (event.getGui() instanceof CreativeModeInventoryScreen gui){
+        else if (event.getScreen() instanceof CreativeModeInventoryScreen gui){
             // Creative Inventory
             // Add other buttons such as enable fly
 
@@ -86,14 +86,13 @@ public class Events {
                         if (minecraft.player == null) return;
                         updateSpeed(minecraft.player);
                     }));*/
-            event.addWidget(new ToggleButton(gui.width / 2 - 200, gui.height / 6 + 48 - 6 /*- 24*/, 98, 20,
+            event.addListener(new ToggleButton(gui.width / 2 - 200, gui.height / 6 + 48 - 6 /*- 24*/, 98, 20,
                     "InstantOpen", Config.COMMON.instantCreativeInventory.get(),
                     button -> {
                         Config.COMMON.instantCreativeInventory.set(((ToggleButton) button).getState());
                         Config.COMMON.instantCreativeInventory.save();
                     }));
-            event.addWidget(new CommandButton(gui.width / 2 - 200, gui.height / 6 + 48 - 6 + 24, 98, 20,
-                    "Set Day", "/time set day"));
+            event.addListener(new DayButton(gui.width / 2 - 200, gui.height / 6 + 48 - 6 + 24, 98, 20, "Set Day"));
         }
     }
 
@@ -146,10 +145,10 @@ public class Events {
     }*/
 
     @SubscribeEvent
-    public void onScreenDrawPost(GuiScreenEvent.DrawScreenEvent.Post event) {
-        if (event.getGui() instanceof InventoryScreen && button != null) {
+    public void onScreenDrawPost(ScreenEvent.DrawScreenEvent.Post event) {
+        if (event.getScreen() instanceof InventoryScreen && button != null) {
             if(button.isMouseOver(event.getMouseX(), event.getMouseY())) {
-                screenRenderToolTip(((InventoryScreen) event.getGui()), new TranslatableComponent("gui.cheat_mode.open_creative_inventory"),
+                screenRenderToolTip(((InventoryScreen) event.getScreen()), new TranslatableComponent("gui.cheat_mode.open_creative_inventory"),
                         event.getMouseX(), event.getMouseY());
             }
         }
@@ -160,8 +159,8 @@ public class Events {
     }
 
     @SubscribeEvent
-    public void onOpenGui(GuiOpenEvent event) {
-        if (screenOpen && event.getGui() == null) {
+    public void onOpenGui(ScreenOpenEvent event) {
+        if (screenOpen && event.getScreen() == null) {
             screenOpen = false;
             firstTime = true;
             ServerPlayer player = getServerPlayer();
