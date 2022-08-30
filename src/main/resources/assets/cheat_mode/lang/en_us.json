@@ -1,3 +1,4 @@
 {
-  "gui.cheat_mode.open_creative_inventory": "Open Creative Inventory"
+  "gui.cheatmode.open_creative_inventory": "Open Creative Inventory",
+  "message.cheatmode.no_permissions": "No GameMode permissions."
 }

@@ -19,7 +19,7 @@ public class CommandButton extends Button {
     public void onPress() {
         if (minecraft.player == null) return;
         enableCheats();
-        minecraft.player.chat(command);
+        minecraft.player.commandUnsigned(command);
     }
 
     private void enableCheats() {
