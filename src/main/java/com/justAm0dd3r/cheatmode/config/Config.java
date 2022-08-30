@@ -8,12 +8,12 @@ import org.apache.commons.lang3.tuple.Pair;
  * Author: justAm0dd3r
  */
 public class Config {
-    public static class Common {
+    public static class Client {
 
         public final ForgeConfigSpec.BooleanValue instantCreativeInventory;
 /*        public final ForgeConfigSpec.BooleanValue doubleSpeed;*/
 
-        public Common(ForgeConfigSpec.Builder builder) {
+        public Client(ForgeConfigSpec.Builder builder) {
 
             builder.comment("Cheat Mode Mod Configurations | NO RESTART REQUIRED")
                    .push(Reference.MOD_ID);
@@ -33,11 +33,11 @@ public class Config {
         }
     }
 
-    public static final ForgeConfigSpec COMMON_SPEC;
-    public static final Common COMMON;
+    public static final ForgeConfigSpec CLIENT_SPEC;
+    public static final Client CLIENT;
     static {
-        final Pair<Common, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Common::new);
-        COMMON_SPEC = specPair.getRight();
-        COMMON = specPair.getLeft();
+        final Pair<Client, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Client::new);
+        CLIENT_SPEC = specPair.getRight();
+        CLIENT = specPair.getLeft();
     }
 }
