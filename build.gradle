@@ -20,7 +20,6 @@ archivesBaseName = 'cheatmode-1.19.2'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
     mappings channel: 'official', version: '1.19.2'
     runs {
@@ -127,5 +126,13 @@ publishing {
         maven {
             url "file:///${project.projectDir}/mcmodsrepo"
         }
+    }
+}
+
+processResources {
+    inputs.property 'version', project.version
+
+    filesMatching("META-INF/mods.toml") {
+        expand 'version': project.version
     }
 }
