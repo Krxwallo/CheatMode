@@ -1,4 +1,7 @@
 {
   "gui.cheatmode.open_creative_inventory": "Open Creative Inventory",
+  "cheatmode.options.instant_creative_inventory": "Instant Creative Inv",
+  "cheatmode.options.flight": "Flight",
+  "cheatmode.options.reach": "Reach",
   "message.cheatmode.no_permissions": "No GameMode permissions."
 }
