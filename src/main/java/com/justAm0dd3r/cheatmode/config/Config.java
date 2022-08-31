@@ -11,7 +11,8 @@ public class Config {
     public static class Client {
 
         public final ForgeConfigSpec.BooleanValue instantCreativeInventory;
-/*        public final ForgeConfigSpec.BooleanValue doubleSpeed;*/
+        public final ForgeConfigSpec.BooleanValue flight;
+        public final ForgeConfigSpec.ConfigValue<Double> reach;
 
         public Client(ForgeConfigSpec.Builder builder) {
 
@@ -21,14 +22,16 @@ public class Config {
             instantCreativeInventory = builder
                     .comment("Instantly open the creative inventory (true) or open " +
                             "the survival inventory with a button to open the creative inventory (false)? (default: true)")
-                    .worldRestart()
                     .define("instant_creative_inventory", true);
-/*
-            doubleSpeed = builder
-                    .comment("Walk and fly twice as fast? (default: false)")
-                    .worldRestart()
-                    .define("double_speed", false);
-*/
+
+            reach = builder
+                    .comment("Reach for placing/breaking blocks and attacking entites (default: 3.0)")
+                    .define("reach", 3.0);
+
+            flight = builder
+                    .comment("Toggle Flight (default: false)")
+                    .define("flight", false);
+
             builder.pop();
         }
     }

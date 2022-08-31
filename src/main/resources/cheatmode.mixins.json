@@ -5,11 +5,11 @@
   "injectors": {
     "defaultRequire": 0
   },
-  "mixins": [
-  ],
   "client": [
     "ChatMixin",
     "GameModeMixin",
+    "LivingEntityMixin",
+    "LocalPlayerMixin",
     "ScreenMixin"
   ]
 }
