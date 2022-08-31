@@ -6,7 +6,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
@@ -60,14 +59,6 @@ public final class Hooks {
                 ItemButton button = new ItemButton(invScreen.getGuiLeft() + 77, invScreen.getGuiTop() + 30, b -> creative());
                 addButton(invScreen, button);
             }
-        }
-        else if (screen instanceof ChatScreen chatScreen) {
-            // todo add config buttons
-
-            var width = chatScreen.width;
-            var height = chatScreen.height;
-
-
         }
     }
 

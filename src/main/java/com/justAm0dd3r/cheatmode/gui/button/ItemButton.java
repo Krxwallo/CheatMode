@@ -10,9 +10,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Author: justAm0dd3r
- */
 public class ItemButton extends Button {
     private final int x, y;
 

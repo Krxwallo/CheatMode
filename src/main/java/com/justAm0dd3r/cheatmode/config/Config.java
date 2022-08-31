@@ -12,7 +12,7 @@ public class Config {
 
         public final ForgeConfigSpec.BooleanValue instantCreativeInventory;
         public final ForgeConfigSpec.BooleanValue flight;
-        public final ForgeConfigSpec.ConfigValue<Double> reach;
+        public final ForgeConfigSpec.DoubleValue reach;
 
         public Client(ForgeConfigSpec.Builder builder) {
 
@@ -26,7 +26,7 @@ public class Config {
 
             reach = builder
                     .comment("Reach for placing/breaking blocks and attacking entites (default: 3.0)")
-                    .define("reach", 3.0);
+                    .defineInRange("reach", 3.0, 0.0, 200.0);
 
             flight = builder
                     .comment("Toggle Flight (default: false)")
