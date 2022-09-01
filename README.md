@@ -3,8 +3,6 @@
 [![Versions](http://cf.way2muchnoise.eu/versions/MC_cheat-mode_latest.svg?badge_style=for_the_badge)](https://www.curseforge.com/minecraft/mc-mods/cheat-mode)
 [![Downloads](http://cf.way2muchnoise.eu/short_cheat-mode.svg?badge_style=for_the_badge)](https://www.curseforge.com/minecraft/mc-mods/cheat-mode)
 
-<!-- slug: Access the creative inventory from the survival mode, toggle flight, reach ... -->
-
 # Cheat Mode
 
 Cheat Mode is a mod that gives players an easy way to access the creative inventory from the survival mode,
