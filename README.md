@@ -19,3 +19,7 @@ otherwise there will be a button (grass block) in the survival inventory to open
 - Reach: Change the player reach (attacking entities and placing/breaking blocks) (default: 3.0) (values above about 5.0 aren't effective on servers).
 
 ### Screenshots
+
+![Chat Screen Options](https://media.forgecdn.net/attachments/492/96/2022-09-01_17.png)
+![Button in Survival Inventory](https://media.forgecdn.net/attachments/492/99/2022-09-01_17.png)
+![Creative Inventory in Survival](https://media.forgecdn.net/attachments/492/98/2022-09-01_17.png)
