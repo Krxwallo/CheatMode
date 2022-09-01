@@ -11,9 +11,6 @@ import java.util.Locale;
 import static net.minecraft.client.Options.genericValueLabel;
 
 public class CheatModeOptions {
-    /*private static Component percentValueLabel(Component p_231898_, double p_231899_) {
-        return Component.translatable("options.percent_value", p_231898_, (int)(p_231899_ * 100.0D));
-    }*/
 
     public static final OptionInstance<Boolean> instantCreativeInventory = OptionInstance.createBoolean(
             "cheatmode.options.instant_creative_inventory",
@@ -38,7 +35,7 @@ public class CheatModeOptions {
         OptionInstance.cachedConstantTooltip(Component.translatable("options.cheatmode.reach.tooltip")),
         (title, value) -> genericValueLabel(title, Component.literal(String.format(Locale.ROOT, "%.1f", value*50))),
         OptionInstance.UnitDouble.INSTANCE.xmap(Mth::square, Math::sqrt),
-        Config.CLIENT.reach.get(),
+        Config.CLIENT.reach.get()/50,
         (value) -> {
             Config.CLIENT.reach.set(value*50);
             Config.CLIENT_SPEC.save();
