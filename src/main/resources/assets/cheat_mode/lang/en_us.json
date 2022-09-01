@@ -3,5 +3,6 @@
   "cheatmode.options.instant_creative_inventory": "Instant Creative Inv",
   "cheatmode.options.flight": "Flight",
   "cheatmode.options.reach": "Reach",
+  "options.cheatmode.reach.tooltip": "Reach for attacking entites and placing/breaking blocks",
   "message.cheatmode.no_permissions": "No GameMode permissions."
 }
