@@ -11,12 +11,8 @@ import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 
 public class ItemButton extends Button {
-    private final int x, y;
-
     public ItemButton(int xIn, int yIn, OnPress action) {
         super(xIn, yIn, 16, 16, MutableComponent.create(ComponentContents.EMPTY), action);
-        this.x = xIn;
-        this.y = yIn;
     }
 
     @Override
