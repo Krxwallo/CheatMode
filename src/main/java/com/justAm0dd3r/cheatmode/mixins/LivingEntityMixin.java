@@ -15,10 +15,11 @@ public class LivingEntityMixin {
     // reach distance = block placing, breaking, interactions
     // attack range = attacking entities
 
-    @Inject(at = @At("HEAD"), method = "getAttributeValue", locals = LocalCapture.CAPTURE_FAILEXCEPTION, cancellable = true)
+    @Inject(at = @At("HEAD"), method = "getAttributeValue(Lnet/minecraft/world/entity/ai/attributes/Attribute;)D", locals = LocalCapture.CAPTURE_FAILEXCEPTION, cancellable = true)
     public void getAttributeValue(Attribute attribute, CallbackInfoReturnable<Double> cir) {
         if (!Config.CLIENT_SPEC.isLoaded()) return;
 
+        //noinspection removal
         if (attribute == ForgeMod.ATTACK_RANGE.orElse(null) || attribute == ForgeMod.REACH_DISTANCE.orElse(null))
             cir.setReturnValue(Config.CLIENT.reach.get());
     }

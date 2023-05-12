@@ -11,7 +11,7 @@ public class CommandButton extends Button {
     private final Minecraft minecraft = Minecraft.getInstance();
 
     public CommandButton(int x, int y, int width, int height, String message, String command) {
-        super(x, y, width, height, MutableComponent.create(new LiteralContents(message)), b -> {});
+        super(x, y, width, height, MutableComponent.create(new LiteralContents(message)), b -> {}, DEFAULT_NARRATION);
         this.command = command;
     }
 
@@ -19,7 +19,7 @@ public class CommandButton extends Button {
     public void onPress() {
         if (minecraft.player == null) return;
         enableCheats();
-        minecraft.player.commandUnsigned(command);
+        minecraft.player.connection.sendCommand(command);
     }
 
     private void enableCheats() {

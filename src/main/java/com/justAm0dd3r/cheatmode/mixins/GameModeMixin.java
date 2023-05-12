@@ -21,7 +21,7 @@ public class GameModeMixin {
 
         if (mc().screen instanceof InventoryScreen) {
             Hooks.open = true;
-            mc().forceSetScreen(new CreativeModeInventoryScreen(mc().player));
+            mc().forceSetScreen(new CreativeModeInventoryScreen(mc().player, mc().player.connection.enabledFeatures(), mc().options.operatorItemsTab().get()));
         }
     }
 

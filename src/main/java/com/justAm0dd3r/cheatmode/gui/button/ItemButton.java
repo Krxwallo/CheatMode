@@ -12,22 +12,20 @@ import org.jetbrains.annotations.NotNull;
 
 public class ItemButton extends Button {
     public ItemButton(int xIn, int yIn, OnPress action) {
-        super(xIn, yIn, 16, 16, MutableComponent.create(ComponentContents.EMPTY), action);
+        super(xIn, yIn, 16, 16, MutableComponent.create(ComponentContents.EMPTY), action, DEFAULT_NARRATION);
     }
 
     @Override
-    public void renderButton(@NotNull PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        renderButton();
-        super.renderButton(matrixStack, mouseX, mouseY, partialTicks);
+    public void renderWidget(@NotNull PoseStack stack, int mouseX, int mouseY, float partialTicks) {
+        renderButton(stack);
+        super.renderWidget(stack, mouseX, mouseY, partialTicks);
     }
 
-    public void renderButton() {
+    public void renderButton(PoseStack stack) {
         ItemRenderer renderer = Minecraft.getInstance().getItemRenderer();
 
         this.alpha = 200.0F;
-        renderer.blitOffset = 200.0F;
-        renderer.renderAndDecorateItem(new ItemStack(Blocks.GRASS_BLOCK), x, y);
+        renderer.renderAndDecorateItem(stack, new ItemStack(Blocks.GRASS_BLOCK), getX(), getY());
         this.alpha = 0.0F;
-        renderer.blitOffset = 0.0F;
     }
 }

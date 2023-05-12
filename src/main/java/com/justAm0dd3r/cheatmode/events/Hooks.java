@@ -53,7 +53,7 @@ public final class Hooks {
         else {
             // Server -> require op
             if (!mc().player.hasPermissions(2)) mc().player.sendSystemMessage(Component.translatable("message.cheatmode.no_permissions").withStyle(ChatFormatting.RED));
-            else mc().player.commandUnsigned("gamemode creative");
+            else mc().player.connection.sendCommand("gamemode creative");
         }
     }
 
@@ -90,7 +90,7 @@ public final class Hooks {
             else {
                 // Server -> require op
                 if (!mc().player.hasPermissions(2)) mc().player.sendSystemMessage(Component.translatable("message.cheatmode.no_permissions").withStyle(ChatFormatting.RED));
-                else mc().player.commandUnsigned("gamemode " + previousGameMode.name().toLowerCase());
+                else mc().player.connection.sendCommand("gamemode " + previousGameMode.name().toLowerCase());
             }
         }
     }
