@@ -10,7 +10,6 @@ import net.minecraft.client.gui.screens.Screen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
@@ -54,11 +53,11 @@ public class ChatScreenMixin {
         ((List<GuiEventListener>) screen.children()).add(button);
     }
 
-    // Fix sliders unfocused
-    @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/ChatScreen;setFocused(Lnet/minecraft/client/gui/components/events/GuiEventListener;)V"), method = "render")
+    // Fix sliders unfocused // TODO fix focused buttons preventing chat input
+    /*@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/ChatScreen;setFocused(Lnet/minecraft/client/gui/components/events/GuiEventListener;)V"), method = "render")
     public void render(ChatScreen screen, GuiEventListener input) {
         if (screen instanceof InBedChatScreen) return;
 
         if (!screen.isDragging()) screen.setFocused(input);
-    }
+    }*/
 }
