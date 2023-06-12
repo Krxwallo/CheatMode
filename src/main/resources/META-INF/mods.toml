@@ -26,6 +26,6 @@ Needs gamemode permissions to work correctly on servers!
 [[dependencies.cheatmode]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.2, 1.20)"
+    versionRange="[1.20, 1.21)"
     ordering="NONE"
     side="BOTH"
