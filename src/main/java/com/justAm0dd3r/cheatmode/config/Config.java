@@ -5,7 +5,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
 /**
- * Author: justAm0dd3r
+ * Author: Krxwallo
  */
 public class Config {
     public static class Client {

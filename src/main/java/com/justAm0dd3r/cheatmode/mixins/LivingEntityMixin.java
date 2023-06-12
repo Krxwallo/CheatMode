@@ -19,8 +19,7 @@ public class LivingEntityMixin {
     public void getAttributeValue(Attribute attribute, CallbackInfoReturnable<Double> cir) {
         if (!Config.CLIENT_SPEC.isLoaded()) return;
 
-        //noinspection removal
-        if (attribute == ForgeMod.ATTACK_RANGE.orElse(null) || attribute == ForgeMod.REACH_DISTANCE.orElse(null))
+        if (attribute == ForgeMod.ENTITY_REACH.orElse(null) || attribute == ForgeMod.BLOCK_REACH.orElse(null))
             cir.setReturnValue(Config.CLIENT.reach.get());
     }
 }

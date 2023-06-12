@@ -2,7 +2,6 @@ package com.justAm0dd3r.cheatmode.events;
 
 import com.justAm0dd3r.cheatmode.config.Config;
 import com.justAm0dd3r.cheatmode.gui.button.ItemButton;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
@@ -99,7 +98,8 @@ public final class Hooks {
     public static void onScreenDrawPost(ScreenEvent.Render.Post event) {
         if (event.getScreen() instanceof InventoryScreen screen && button != null) {
             if(button.isMouseOver(event.getMouseX(), event.getMouseY())) {
-                screen.renderTooltip(new PoseStack(), Component.translatable("gui.cheatmode.open_creative_inventory"), event.getMouseX(), event.getMouseY());
+                var tooltip = Component.translatable("gui.cheatmode.open_creative_inventory").withStyle(ChatFormatting.GOLD);
+                screen.setTooltipForNextRenderPass(List.of(tooltip.getVisualOrderText()));
             }
         }
     }
