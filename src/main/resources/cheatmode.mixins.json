@@ -14,7 +14,8 @@
     "GameModeMixin",
     "LivingEntityMixin",
     "LocalPlayerMixin",
-    "ScreenMixin"
+    "ScreenMixin",
+    "ScreenAccessor"
   ],
   "refmap": "mixins.cheatmode.refmap.json"
 }

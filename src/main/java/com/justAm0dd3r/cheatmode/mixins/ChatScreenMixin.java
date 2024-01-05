@@ -2,17 +2,17 @@ package com.justAm0dd3r.cheatmode.mixins;
 
 import com.justAm0dd3r.cheatmode.options.CheatModeOptions;
 import net.minecraft.client.OptionInstance;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.InBedChatScreen;
 import net.minecraft.client.gui.screens.Screen;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.List;
 
 import static com.justAm0dd3r.cheatmode.events.Hooks.mc;
 
@@ -33,31 +33,17 @@ public class ChatScreenMixin {
             int k = height / 10 - 12 + 24 * i;
             var button = option.createButton(mc().options, j, k, 150);
             screen.renderables.add(button);
-            addWidget(screen, button);
+            cheatMode$addWidget(screen, button);
             ++i;
         }
     }
 
-    private static <T extends GuiEventListener & NarratableEntry> void addWidget(Screen screen, T button) {
-        try {
-            var field = Screen.class.getDeclaredField("narratables");
-            field.setAccessible(true);
-            //noinspection unchecked
-            ((List<NarratableEntry>) field.get(screen)).add(button);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-        //noinspection unchecked
-        ((List<GuiEventListener>) screen.children()).add(button);
+    @Unique
+    private static <T extends GuiEventListener & NarratableEntry> void cheatMode$addWidget(Screen screen, T button) {
+        var screenAccessor = (ScreenAccessor) screen;
+
+        screenAccessor.getRenderables().add((Renderable) button);
+        screenAccessor.getNarratables().add(button);
+        screenAccessor.getChildren().add(button);
     }
-
-    // Fix sliders unfocused // TODO fix focused buttons preventing chat input
-    /*@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/ChatScreen;setFocused(Lnet/minecraft/client/gui/components/events/GuiEventListener;)V"), method = "render")
-    public void render(ChatScreen screen, GuiEventListener input) {
-        if (screen instanceof InBedChatScreen) return;
-
-        if (!screen.isDragging()) screen.setFocused(input);
-    }*/
 }

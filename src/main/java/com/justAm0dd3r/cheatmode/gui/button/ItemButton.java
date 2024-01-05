@@ -2,6 +2,7 @@ package com.justAm0dd3r.cheatmode.gui.button;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentContents;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
@@ -10,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ItemButton extends Button {
     public ItemButton(int xIn, int yIn, OnPress action) {
-        super(xIn, yIn, 16, 16, MutableComponent.create(ComponentContents.EMPTY), action, DEFAULT_NARRATION);
+        super(xIn, yIn, 16, 16, Component.empty(), action, DEFAULT_NARRATION);
     }
 
     @Override
