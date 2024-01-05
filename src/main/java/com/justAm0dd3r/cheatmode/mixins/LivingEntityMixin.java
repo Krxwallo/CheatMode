@@ -3,7 +3,7 @@ package com.justAm0dd3r.cheatmode.mixins;
 import com.justAm0dd3r.cheatmode.config.Config;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.neoforged.neoforge.common.NeoForgeMod;
+import net.minecraftforge.common.ForgeMod;
 import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,7 +26,7 @@ public class LivingEntityMixin {
         if (!Config.CLIENT_SPEC.isLoaded()) return;
 
         try {
-            if (attribute == NeoForgeMod.ENTITY_REACH.value() || attribute == NeoForgeMod.BLOCK_REACH.value())
+            if (attribute == ForgeMod.ENTITY_REACH.orElse(null) || attribute == ForgeMod.BLOCK_REACH.orElse(null))
                 cir.setReturnValue(Config.CLIENT.reach.get());
         } catch (CancellationException e) {
             LOGGER.warn("Failed to get attribute value for " + attribute + "!", e);

@@ -1,7 +1,7 @@
 package com.justAm0dd3r.cheatmode.config;
 
 import com.justAm0dd3r.cheatmode.reference.Reference;
-import net.neoforged.neoforge.common.ModConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
 /**
@@ -10,11 +10,11 @@ import org.apache.commons.lang3.tuple.Pair;
 public class Config {
     public static class Client {
 
-        public final ModConfigSpec.BooleanValue instantCreativeInventory;
-        public final ModConfigSpec.BooleanValue flight;
-        public final ModConfigSpec.DoubleValue reach;
+        public final ForgeConfigSpec.BooleanValue instantCreativeInventory;
+        public final ForgeConfigSpec.BooleanValue flight;
+        public final ForgeConfigSpec.DoubleValue reach;
 
-        public Client(ModConfigSpec.Builder builder) {
+        public Client(ForgeConfigSpec.Builder builder) {
 
             builder.comment("Cheat Mode Mod Configurations | NO RESTART REQUIRED")
                    .push(Reference.MOD_ID);
@@ -36,10 +36,10 @@ public class Config {
         }
     }
 
-    public static final ModConfigSpec CLIENT_SPEC;
+    public static final ForgeConfigSpec CLIENT_SPEC;
     public static final Client CLIENT;
     static {
-        final Pair<Client, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(Client::new);
+        final Pair<Client, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Client::new);
         CLIENT_SPEC = specPair.getRight();
         CLIENT = specPair.getLeft();
     }
