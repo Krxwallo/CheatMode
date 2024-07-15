@@ -1,23 +1,25 @@
-![Curseforge Banner](https://mc.lookonthebrightsi.de/cheat_mode/images/main_trimmed.png)
 
-[![Versions](http://cf.way2muchnoise.eu/versions/MC_cheat-mode_latest.svg?badge_style=for_the_badge)](https://www.curseforge.com/minecraft/mc-mods/cheat-mode)
-[![Downloads](http://cf.way2muchnoise.eu/short_cheat-mode.svg?badge_style=for_the_badge)](https://www.curseforge.com/minecraft/mc-mods/cheat-mode)
+Installation information
+=======
 
-# Cheat Mode
+This template repository can be directly cloned to get you started with a new
+mod. Simply create a new repository cloned from this one, by following the
+instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
 
-Cheat Mode is a mod that gives players an easy way to access the creative inventory from the survival mode,
-as well as some nice options. Since versions 2.0.0+ these can be changed in the **chat screen**.
+Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
 
-Opening the creative inventory in survival mode only works on servers where the player has **gamemode permissions**.
+If at any point you are missing libraries in your IDE, or you've run into problems you can
+run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
+{this does not affect your code} and then start the process again.
 
-### Options
-- Instantly Open Inv: when turned on opening the survival inventory will instantly open the creative inventory, 
-otherwise there will be a button (grass block) in the survival inventory to open it.
-- Flight: When turned on the player is able to fly in survival mode.
-- Reach: Change the player reach (attacking entities and placing/breaking blocks) (default: 3.0) (values above about 5.0 aren't effective on servers).
+Mapping Names:
+============
+By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
+in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
+license. For the latest license text, refer to the mapping file itself, or the reference copy here:
+https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
 
-### Screenshots
-
-![2022-09-01_17 03 35](https://user-images.githubusercontent.com/59575572/188154714-6beee533-9e40-4030-ba78-8da372c5c5f8.png)
-![2022-09-01_17 07 43](https://user-images.githubusercontent.com/59575572/188154732-99155daf-5148-42af-a4cb-494491b42803.png)
-![2022-09-01_17 04 57](https://user-images.githubusercontent.com/59575572/188154726-d360b3e5-be55-49bc-927c-008077adb902.png)
+Additional Resources: 
+==========
+Community Documentation: https://docs.neoforged.net/  
+NeoForged Discord: https://discord.neoforged.net/
