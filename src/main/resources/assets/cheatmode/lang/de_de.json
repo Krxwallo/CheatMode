@@ -1,0 +1,10 @@
+{
+  "gui.cheatmode.open_creative_inventory": "Kreativinventar öffnen",
+  "cheatmode.options.instant_creative_inventory": "Sofortiges Öffnen",
+  "cheatmode.options.flight": "Fliegen",
+  "cheatmode.options.block_reach": "Block-Reichweite",
+  "options.cheatmode.block_reach.tooltip": "Reichweite für das Platzieren/Abbauen von Blöcken",
+  "cheatmode.options.interaction_reach": "Interaktions-Reichweite",
+  "options.cheatmode.interaction_reach.tooltip": "Reichweite für das Interagieren/Attackieren von Entitäten",
+  "message.cheatmode.no_permissions": "Keine GameMode Rechte."
+}

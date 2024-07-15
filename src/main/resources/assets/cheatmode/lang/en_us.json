@@ -1,0 +1,10 @@
+{
+  "gui.cheatmode.open_creative_inventory": "Open Creative Inventory",
+  "cheatmode.options.instant_creative_inventory": "Instant Creative Inv",
+  "cheatmode.options.flight": "Flight",
+  "cheatmode.options.block_reach": "Block Reach",
+  "options.cheatmode.block_reach.tooltip": "Reach for placing/breaking blocks",
+  "cheatmode.options.interaction_reach": "Interaction Reach",
+  "options.cheatmode.interaction_reach.tooltip": "Reach for interacting with/attacking entities",
+  "message.cheatmode.no_permissions": "No GameMode permissions."
+}
