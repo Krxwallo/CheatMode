@@ -9,13 +9,7 @@
   "mixins": [
   ],
   "client": [
-    "ChatMixin",
-    "ChatScreenMixin",
-    "GameModeMixin",
-    "LivingEntityMixin",
-    "LocalPlayerMixin",
-    "MinecraftMixin",
-    "ScreenMixin"
+    
   ],
   "refmap": "mixins.cheatmode.refmap.json"
 }
