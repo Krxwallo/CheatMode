@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.OptionInstance;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
@@ -32,6 +33,7 @@ import net.neoforged.neoforge.event.GameShuttingDownEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import javax.annotation.Nullable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +41,8 @@ import java.util.WeakHashMap;
 
 @EventBusSubscriber(value = Dist.CLIENT)
 public final class Hooks {
+    private static final Field NARRATABLES_FIELD = field(Screen.class, "narratables");
+    private static final Field CHAT_INPUT_FIELD = field(ChatScreen.class, "input");
     private static ItemButton button;
     private static boolean pendingCreativeScreen;
     private static final Map<ChatScreen, List<AbstractWidget>> chatOptionWidgets = new WeakHashMap<>();
@@ -127,14 +131,7 @@ public final class Hooks {
         //noinspection unchecked
         ((java.util.List<GuiEventListener>) screen.children()).add(widget);
 
-        try {
-            var field = Screen.class.getDeclaredField("narratables");
-            field.setAccessible(true);
-            //noinspection unchecked
-            ((java.util.List<NarratableEntry>) field.get(screen)).add(widget);
-        } catch (ReflectiveOperationException e) {
-            throw new RuntimeException(e);
-        }
+        narratables(screen).add(widget);
     }
 
     public static void onScreenClose(Screen screen) {
@@ -200,36 +197,35 @@ public final class Hooks {
         if (widgets == null || widgets.isEmpty()) return;
 
         if (widgets.contains(screen.getFocused())) {
-            screen.setFocused(null);
+            restoreChatInputFocus(screen);
         }
 
         // Keep chat's history behavior, but temporarily remove the injected widgets from focus navigation.
         //noinspection unchecked
         ((List<GuiEventListener>) screen.children()).removeAll(widgets);
-
-        try {
-            var narratablesField = Screen.class.getDeclaredField("narratables");
-            narratablesField.setAccessible(true);
-            //noinspection unchecked
-            ((List<NarratableEntry>) narratablesField.get(screen)).removeAll(widgets);
-        } catch (ReflectiveOperationException e) {
-            throw new RuntimeException(e);
-        }
+        narratables(screen).removeAll(widgets);
 
         screen.moveInHistory(keyCode == 265 ? -1 : 1);
+        restoreChatInputFocus(screen);
 
         //noinspection unchecked
         ((List<GuiEventListener>) screen.children()).addAll(widgets);
-        try {
-            var narratablesField = Screen.class.getDeclaredField("narratables");
-            narratablesField.setAccessible(true);
-            //noinspection unchecked
-            ((List<NarratableEntry>) narratablesField.get(screen)).addAll(widgets);
-        } catch (ReflectiveOperationException e) {
-            throw new RuntimeException(e);
-        }
+        narratables(screen).addAll(widgets);
 
         event.setCanceled(true);
+    }
+
+    @SubscribeEvent
+    public static void onChatMouseButtonReleased(ScreenEvent.MouseButtonReleased.Post event) {
+        if (!(event.getScreen() instanceof ChatScreen screen)) return;
+        if (event.getButton() != 0 || !event.wasReleaseHandled()) return;
+
+        List<AbstractWidget> widgets = chatOptionWidgets.get(screen);
+        if (widgets == null || widgets.isEmpty()) return;
+
+        if (widgets.contains(screen.getFocused())) {
+            restoreChatInputFocus(screen);
+        }
     }
 
     @SubscribeEvent
@@ -265,6 +261,33 @@ public final class Hooks {
         var entityReach = attributes.getInstance(Attributes.ENTITY_INTERACTION_RANGE);
         if (entityReach != null) {
             entityReach.setBaseValue(Config.CLIENT.interactionReach.get());
+        }
+    }
+
+    private static Field field(Class<?> owner, String name) {
+        try {
+            Field field = owner.getDeclaredField(name);
+            field.setAccessible(true);
+            return field;
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static List<NarratableEntry> narratables(Screen screen) {
+        try {
+            return (List<NarratableEntry>) NARRATABLES_FIELD.get(screen);
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void restoreChatInputFocus(ChatScreen screen) {
+        try {
+            screen.setFocused((EditBox) CHAT_INPUT_FIELD.get(screen));
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
         }
     }
 }
