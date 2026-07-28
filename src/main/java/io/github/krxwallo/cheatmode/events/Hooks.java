@@ -28,6 +28,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientChatReceivedEvent;
 import net.neoforged.neoforge.client.event.ClientPlayerChangeGameTypeEvent;
+import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.event.GameShuttingDownEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
@@ -45,6 +46,7 @@ public final class Hooks {
     private static final Field CHAT_INPUT_FIELD = field(ChatScreen.class, "input");
     private static ItemButton button;
     private static boolean pendingCreativeScreen;
+    private static boolean temporaryCreative;
     private static final Map<ChatScreen, List<AbstractWidget>> chatOptionWidgets = new WeakHashMap<>();
 
     private static GameType previousGameMode = GameType.SURVIVAL;
@@ -66,11 +68,16 @@ public final class Hooks {
         if (mc().gameMode.getPlayerMode().isCreative()) return;
 
         previousGameMode = mc().gameMode.getPlayerMode();
-        pendingCreativeScreen = mc().screen instanceof InventoryScreen;
+        pendingCreativeScreen = mc().gui.screen() instanceof InventoryScreen;
+        temporaryCreative = true;
 
         if (singleplayer()) {
             var player = serverPlayer();
-            if (player == null) return;
+            if (player == null) {
+                temporaryCreative = false;
+                pendingCreativeScreen = false;
+                return;
+            }
 
             player.setGameMode(GameType.CREATIVE);
         }
@@ -135,23 +142,27 @@ public final class Hooks {
     }
 
     public static void onScreenClose(Screen screen) {
-        if (mc().player == null) return;
-
-        if (screen instanceof CreativeModeInventoryScreen) {
-            if (!open) return;
-            open = false;
-
-            if (singleplayer()) {
-                var player = serverPlayer();
-                if (player == null) return;
-                if (mc().gameMode == null || mc().gameMode.getPreviousPlayerMode() == null) return;
-
-                player.setGameMode(previousGameMode);
-            }
-            else {
-                mc().player.connection.sendCommand("gamemode " + previousGameMode.name().toLowerCase());
-            }
+        if (screen instanceof CreativeModeInventoryScreen && open) {
+            restorePreviousGameMode();
         }
+    }
+
+    public static void restorePreviousGameMode() {
+        if (!temporaryCreative) return;
+
+        if (singleplayer()) {
+            var player = serverPlayer();
+            if (player == null) return;
+            player.setGameMode(previousGameMode);
+        }
+        else {
+            if (mc().player == null) return;
+            mc().player.connection.sendCommand("gamemode " + previousGameMode.name().toLowerCase());
+        }
+
+        temporaryCreative = false;
+        pendingCreativeScreen = false;
+        open = false;
     }
 
     @SubscribeEvent
@@ -161,9 +172,12 @@ public final class Hooks {
 
     @SubscribeEvent
     public static void onGameShuttingDown(GameShuttingDownEvent event) {
-        if (mc().screen != null) {
-            onScreenClose(mc().screen);
-        }
+        restorePreviousGameMode();
+    }
+
+    @SubscribeEvent
+    public static void onClientLoggingOut(ClientPlayerNetworkEvent.LoggingOut event) {
+        restorePreviousGameMode();
     }
 
     @SubscribeEvent
@@ -178,12 +192,20 @@ public final class Hooks {
 
     @SubscribeEvent
     public static void onClientPlayerChangeGameType(ClientPlayerChangeGameTypeEvent event) {
-        if (!event.getNewGameType().isCreative() || mc().player == null) return;
-        if (!pendingCreativeScreen || !(mc().screen instanceof InventoryScreen)) return;
+        onLocalGameModeChange(event.getNewGameType());
+    }
+
+    public static void onLocalGameModeChange(GameType gameMode) {
+        if (!gameMode.isCreative() || !temporaryCreative || !pendingCreativeScreen) return;
+        pendingCreativeScreen = false;
+
+        if (mc().player == null || !(mc().gui.screen() instanceof InventoryScreen)) {
+            restorePreviousGameMode();
+            return;
+        }
 
         open = true;
-        pendingCreativeScreen = false;
-        mc().setScreen(new CreativeModeInventoryScreen(mc().player, mc().player.connection.enabledFeatures(), mc().options.operatorItemsTab().get()));
+        mc().gui.setScreen(new CreativeModeInventoryScreen(mc().player, mc().player.connection.enabledFeatures(), mc().options.operatorItemsTab().get()));
     }
 
     @SubscribeEvent
